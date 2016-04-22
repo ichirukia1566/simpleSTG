@@ -8,8 +8,8 @@ public class Hero : MonoBehaviour {
     public float timer = 0;
     public Sprite[] sprites;
     private SpriteRenderer spriteRender;
-    public float superGunTime = 10f;
-    private float resetSupterGunTime;
+    public float superGunTime = 5f;
+    private float resetSuperGunTime;
 
     private bool isMouseDown = false;
     private Vector3 lastMousePosition = Vector3.zero;
@@ -22,13 +22,17 @@ public class Hero : MonoBehaviour {
 
     private float speed = 4; // zjiang
     private Vector2 v; // zjiang
+    public float clockTime = 5f; // zjiang
+    private float resetClockTime; // zjiang
 	// Use this for initialization
 	void Start () {
         spriteRender = this.GetComponent<SpriteRenderer>();
-        resetSupterGunTime = superGunTime;
+        resetSuperGunTime = superGunTime;
         superGunTime = 0;
         gunTop.openFire();
         v = this.GetComponent<Rigidbody2D>().velocity; // zjiang
+        resetClockTime = clockTime;
+        clockTime = 0;
 	}
   
 	// Update is called once per frame
@@ -41,7 +45,7 @@ public class Hero : MonoBehaviour {
         }
 
         /*** keyboard ctrl by zjiang***/
-        checkPosition2();
+        checkPosition2(); // seems that this line and the one after the if's are necessary to make it more smooth to move over the border to the other side
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             v.x = -speed;
             checkPosition2();
@@ -90,7 +94,7 @@ public class Hero : MonoBehaviour {
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
-        checkPosition2();
+        checkPosition2(); // seems necessary
         /*** end of keyboard ctrl***/
 
         /*** mouse ctrl part ***/
@@ -123,6 +127,14 @@ public class Hero : MonoBehaviour {
             }
         } else if (gunCount == 2) {
             transformToNormalGun();
+        }
+        if (clockTime > 0) {
+            clockTime -= Time.deltaTime;
+            if (Time.timeScale == 1) {
+                Time.timeScale = 0.6f;
+            }
+        } else if (Time.timeScale == 0.6f) {
+            Time.timeScale = 1;
         }
 	}
 
@@ -180,12 +192,15 @@ public class Hero : MonoBehaviour {
             Award award = other.GetComponent<Award>();
             if (award.type == 0) {
                 //chang to double guns
-                superGunTime = resetSupterGunTime;
+                superGunTime = resetSuperGunTime;
                 Destroy(award.gameObject);
             } else if (award.type == 1) {
                 BombManager.instance.AddBomb();
                 Destroy(award.gameObject);
              
+            } else if (award.type == 2) {
+                clockTime = resetClockTime;
+                Destroy(award.gameObject);
             }
         } else if (other.tag == "Enemy") {
             Destroy(this.gameObject);

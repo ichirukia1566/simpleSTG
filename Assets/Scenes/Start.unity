@@ -522,6 +522,7 @@ MonoBehaviour:
   gunTop: {fileID: 1077361878}
   gunLeft: {fileID: 1671990681}
   gunRight: {fileID: 122196932}
+  clockTime: 10
 --- !u!60 &331813055
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1338,12 +1339,14 @@ MonoBehaviour:
   enemy2Prefab: {fileID: 135100, guid: 1c89d1e7af1ebd84eacd1558aeb5aed2, type: 2}
   awardType0Prefab: {fileID: 175090, guid: cf536b7a73f84d14cacdbdbc1ed07400, type: 2}
   awardType1Prefab: {fileID: 158556, guid: e0539d80739bddc4da3c2603c0dd53bf, type: 2}
+  awardType2Prefab: {fileID: 156664, guid: a61d7dd60a438c246821ebccd4612364, type: 2}
   Container: {fileID: 346894422}
   enemy0Rate: 0.5
   enemy1Rate: 5
   enemy2Rate: 8
-  awardType0Rate: 7
-  awardType1Rate: 10
+  awardType0Rate: 15
+  awardType1Rate: 20
+  awardType2Rate: 20
 --- !u!4 &846903675
 Transform:
   m_ObjectHideFlags: 0
