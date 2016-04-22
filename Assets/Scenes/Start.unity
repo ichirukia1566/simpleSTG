@@ -494,7 +494,7 @@ Transform:
   m_GameObject: {fileID: 331813051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.302, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 1077361879}
   - {fileID: 1671990680}
@@ -1344,9 +1344,9 @@ MonoBehaviour:
   enemy0Rate: 0.5
   enemy1Rate: 5
   enemy2Rate: 8
-  awardType0Rate: 15
-  awardType1Rate: 20
-  awardType2Rate: 20
+  awardType0Rate: 15.6525
+  awardType1Rate: 20.7898
+  awardType2Rate: 30.4673
 --- !u!4 &846903675
 Transform:
   m_ObjectHideFlags: 0
