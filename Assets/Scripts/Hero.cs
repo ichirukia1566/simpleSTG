@@ -33,6 +33,7 @@ public class Hero : MonoBehaviour {
         v = this.GetComponent<Rigidbody2D>().velocity; // zjiang
         resetClockTime = clockTime;
         clockTime = 0;
+        Time.timeScale = 0;
 	}
   
 	// Update is called once per frame
@@ -47,48 +48,56 @@ public class Hero : MonoBehaviour {
         /*** keyboard ctrl by zjiang***/
         checkPosition2(); // seems that this line and the one after the if's are necessary to make it more smooth to move over the border to the other side
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            Time.timeScale = 1;
             v.x = -speed;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow)) {
+            Time.timeScale = 0;
             v.x = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            Time.timeScale = 1;
             v.x = speed;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.RightArrow)) {
+            Time.timeScale = 0;
             v.x = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
         if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            Time.timeScale = 1;
             v.y = speed;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.UpArrow)) {
+            Time.timeScale = 0;
             v.y = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            Time.timeScale = 1;
             v.y = -speed;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.DownArrow)) {
+            Time.timeScale = 0;
             v.y = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;

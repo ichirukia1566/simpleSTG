@@ -14,23 +14,37 @@ public class Spawn : MonoBehaviour {
     public float enemy0Rate = 0.5f; // spawn one per second
     public float enemy1Rate = 5f;
     public float enemy2Rate = 8f;
-    public float awardType0Rate = 15f;
-    public float awardType1Rate = 20f; 
-    public float awardType2Rate = 20f;
+    public float awardType0Rate = 15.6525f;
+    public float awardType1Rate = 20.7898f; 
+    public float awardType2Rate = 30.4673f;
+    //public float awardType0First = Random.Range(10.0f, 20.0f);
+    //public float awardType1First = Random.Range(10.0f, 20.0f);
+    //public float awardType2First = Random.Range(10.0f, 20.0f);
+    private int min = 0;
+    private int max = 100000;
 
 	// Use this for initialization
 	void Start () {
         InvokeRepeating("createEnemy0", 1, enemy0Rate);
         InvokeRepeating("createEnemy1", 1, enemy1Rate);
         InvokeRepeating("createEnemy2", 1, enemy2Rate);
-        InvokeRepeating("createawardType0", 10, awardType0Rate);
-        InvokeRepeating("createawardType1", 10, awardType1Rate);
-        InvokeRepeating("createawardType2", 10, awardType2Rate);
+        //InvokeRepeating("createawardType0", awardType0First, awardType0Rate);
+        //InvokeRepeating("createawardType1", awardType1First, awardType1Rate);
+        //InvokeRepeating("createawardType2", awardType2First, awardType2Rate);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	    
+	    int p = Random.Range(min, max);
+        if (p <= 10) {
+            createawardType2();
+        } else if (p > 10 && p <= 100) {
+            createawardType0();
+        } else if (p > 100 && p <= 120) {
+            createawardType1();
+        } else {
+
+        }
 	}
 
     public void createEnemy0() {
