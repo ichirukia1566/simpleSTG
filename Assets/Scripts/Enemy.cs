@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour {
         } else {
             float rate = Random.Range(1f, 2f);
             this.transform.Translate(Vector3.down * speed * Time.deltaTime * rate);
-            //this.transform.Translate(Vector3.left * speed * 0.1f * Time.deltaTime * (rate < 0.5f ? 1 : -1) * rate);
+            this.transform.Translate(Vector3.left * speed * 0.1f * Time.deltaTime * (rate < 1.5f ? 1f : -1f));
             if (transform.position.y < -5.5f || transform.position.x < -3f || transform.position.x > 3f) {
                 Destroy(this.gameObject);
             }
