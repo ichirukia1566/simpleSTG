@@ -4,7 +4,8 @@ using System.Collections;
 public enum EnemyType{
     smallEnemy,
     middleEnemy,
-    bigEnemy
+    bigEnemy,
+    missile
 }
 public class Enemy : MonoBehaviour {
 
@@ -25,19 +26,31 @@ public class Enemy : MonoBehaviour {
     private float resetHitTime;
 
     public Sprite[] hitSprites;
+
+
 	// Use this for initialization
 	void Start () {
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         resetHitTime = hitTimer;
         hitTimer = 0;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-        this.transform.Translate(Vector3.down * speed*Time.deltaTime);
-        if (transform.position.y < -5.5f) {
-            Destroy(this.gameObject);
+        if (this.enemyType != EnemyType.missile) {
+            this.transform.Translate(Vector3.down * speed*Time.deltaTime);
+            if (transform.position.y < -5.5f) {
+                Destroy(this.gameObject);
+            }
+        } else {
+            float rate = Random.Range(1f, 2f);
+            this.transform.Translate(Vector3.down * speed * Time.deltaTime * rate);
+            //this.transform.Translate(Vector3.left * speed * 0.1f * Time.deltaTime * (rate < 0.5f ? 1 : -1) * rate);
+            if (transform.position.y < -5.5f || transform.position.x < -3f || transform.position.x > 3f) {
+                Destroy(this.gameObject);
+            }
         }
+
 
         //death animation
         if (isDeath) {
@@ -49,12 +62,15 @@ public class Enemy : MonoBehaviour {
             }else
                 spriteRenderer.sprite = sprites[frameIndex];
         } else {
-            if (hitTimer > 0) {
-                hitTimer -= Time.deltaTime;
-                int frameIndex = (int)( (resetHitTime - hitTimer) / (1f / framePerSecond));//
-                frameIndex %= 2;
-                spriteRenderer.sprite = hitSprites[frameIndex];
+            if (this.enemyType != EnemyType.missile) {
+                if (hitTimer > 0) {
+                    hitTimer -= Time.deltaTime;
+                    int frameIndex = (int)( (resetHitTime - hitTimer) / (1f / framePerSecond));//
+                    frameIndex %= 2;
+                    spriteRenderer.sprite = hitSprites[frameIndex];
+                }
             }
+
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && BombManager.instance.count > 0) {
@@ -77,8 +93,10 @@ public class Enemy : MonoBehaviour {
 
     private void ToDie() {
         if (!isDeath) {
-            isDeath = true;
-            GameManager._instance.score += score;
+            if (this.enemyType != EnemyType.missile) {
+                isDeath = true;
+                GameManager._instance.score += score;
+            }
         }
     }
 

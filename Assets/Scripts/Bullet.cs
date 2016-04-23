@@ -6,9 +6,9 @@ public class Bullet : MonoBehaviour {
     public float speed = 2;
 	// Use this for initialization
 	void Start () {
-	
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
@@ -23,7 +23,6 @@ public class Bullet : MonoBehaviour {
                 other.gameObject.SendMessage("BeHit");
                 GameObject.Destroy(this.gameObject);
             }
-            
         }
     }
 }

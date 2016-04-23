@@ -24,6 +24,7 @@ public class Hero : MonoBehaviour {
     private Vector2 v; // zjiang
     public float clockTime = 5f; // zjiang
     private float resetClockTime; // zjiang
+    //public bool isHeroDeath = false;
 	// Use this for initialization
 	void Start () {
         spriteRender = this.GetComponent<SpriteRenderer>();
@@ -35,7 +36,7 @@ public class Hero : MonoBehaviour {
         clockTime = 0;
         Time.timeScale = 0;
 	}
-  
+
 	// Update is called once per frame
 	void Update () {
         if (heroAnimation) {
@@ -55,7 +56,8 @@ public class Hero : MonoBehaviour {
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow)) {
-            Time.timeScale = 0;
+            if (!isKeyDown())
+                Time.timeScale = 0;
             v.x = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
@@ -69,7 +71,8 @@ public class Hero : MonoBehaviour {
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.RightArrow)) {
-            Time.timeScale = 0;
+            if (!isKeyDown())
+                Time.timeScale = 0;
             v.x = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
@@ -83,7 +86,8 @@ public class Hero : MonoBehaviour {
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.UpArrow)) {
-            Time.timeScale = 0;
+            if (!isKeyDown())
+                Time.timeScale = 0;
             v.y = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
@@ -97,7 +101,8 @@ public class Hero : MonoBehaviour {
             //checkPosition2();
         }
         if (Input.GetKeyUp(KeyCode.DownArrow)) {
-            Time.timeScale = 0;
+            if (!isKeyDown())
+                Time.timeScale = 0;
             v.y = 0;
             checkPosition2();
             GetComponent<Rigidbody2D>().velocity = v;
@@ -119,10 +124,10 @@ public class Hero : MonoBehaviour {
             if (lastMousePosition != Vector3.zero) {
                 //Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 offset = Camera.main.ScreenToWorldPoint(Input.mousePosition) - lastMousePosition;
-                
+
                 transform.position = transform.position + offset;
                 checkPosition();
-                
+
             }
 
             lastMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -137,7 +142,7 @@ public class Hero : MonoBehaviour {
         } else if (gunCount == 2) {
             transformToNormalGun();
         }
-        if (clockTime > 0) {
+        if (clockTime > 0) { // slowmotion award
             clockTime -= Time.deltaTime;
             if (Time.timeScale == 1) {
                 Time.timeScale = 0.6f;
@@ -162,15 +167,15 @@ public class Hero : MonoBehaviour {
     }
     /***
         checkPosition2() by zjiang
-        if the ship is over left/right border, it will appear on the other side
+        if the ship moves over left/right border, it will appear on the other side
         if it is over top/bottom border, it will stop there
     ***/
-    private void checkPosition2() { 
+    private void checkPosition2() {
         //check x -2.22f~2.22f  y -3.9f~3.4f
         Vector3 pos = transform.position;
         float x = pos.x;
         float y = pos.y;
-        x = x < -2.22f? 2.22f : x;
+        x = x < -2.22f ? 2.22f : x;
         x = x > 2.22f ? -2.22f : x;
         y = y < -3.9f ? -3.9f : y;
         y = y > 3.4f ? 3.4f : y;
@@ -206,7 +211,7 @@ public class Hero : MonoBehaviour {
             } else if (award.type == 1) {
                 BombManager.instance.AddBomb();
                 Destroy(award.gameObject);
-             
+
             } else if (award.type == 2) {
                 clockTime = resetClockTime;
                 Destroy(award.gameObject);
@@ -217,5 +222,13 @@ public class Hero : MonoBehaviour {
             BombManager.instance.gameObject.SetActive(false);
         }
     }
-    
+
+    private bool isKeyDown() {
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
