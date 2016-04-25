@@ -70,12 +70,13 @@ public class Spawn : MonoBehaviour {
 
     public void createEnemy3() {
         float x = Random.Range(-1.59f, 1.59f);
-        GameObject o = GameObject.Instantiate(missilePrefab, new Vector3(x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+        float y = Random.Range(-5.5f, 5.5f);
+        GameObject o = GameObject.Instantiate(missilePrefab, new Vector3(x, y, transform.position.z), Quaternion.identity) as GameObject;
         o.transform.parent = Container.transform;
     }
 
     public void createawardType0() {
-        float x = Random.Range(-2.1f, 2.1f);
+        float x = Random.Range(-1.59f, 1.59f);
         GameObject o = GameObject.Instantiate(awardType0Prefab, new Vector3(x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
         o.transform.parent = Container.transform;
         GetComponent<AudioSource>().Play();

@@ -27,26 +27,49 @@ public class Enemy : MonoBehaviour {
 
     public Sprite[] hitSprites;
 
-
+    public float missileType;
+    public float circleGrowSpeed = 0.1f;
+    public float circleSize = 1f;
+    public float phase;
+    public bool isLineMissileSpawnZone = false;
+    public bool isSpiralMissileSpawnZone = false;
 	// Use this for initialization
 	void Start () {
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         resetHitTime = hitTimer;
         hitTimer = 0;
+        missileType = Random.Range(0f, 3f);
+        phase = Random.Range(0f, 6.28f);
+        if (this.transform.position.y > 2.2f) {
+            isLineMissileSpawnZone = true;
+        } else if (this.transform.position.y < 2.2f && this.transform.position.y > -2.2f) {
+            isSpiralMissileSpawnZone = true;
+        }
 	}
 
 	// Update is called once per frame
 	void Update () {
-        if (this.enemyType != EnemyType.missile) {
+        if (this.enemyType != EnemyType.missile) { // a normal enemy
             this.transform.Translate(Vector3.down * speed*Time.deltaTime);
             if (transform.position.y < -5.5f) {
                 Destroy(this.gameObject);
             }
-        } else {
-            float rate = Random.Range(1f, 2f);
-            this.transform.Translate(Vector3.down * speed * Time.deltaTime * rate);
-            this.transform.Translate(Vector3.left * speed * 0.1f * Time.deltaTime * (rate < 1.5f ? 1f : -1f));
-            if (transform.position.y < -5.5f || transform.position.x < -3f || transform.position.x > 3f) {
+        } else { // a missile
+
+            if (missileType >= 0f && missileType < 2.5f && isLineMissileSpawnZone) {
+                float rate = Random.Range(1f, 2f);
+                this.transform.Translate(Vector3.down * speed * Time.deltaTime * rate);
+                this.transform.Translate(Vector3.left * speed * 0.5f * Time.deltaTime * (rate < 1.5f ? 1f : -1f));
+            } else if (missileType >= 2.5f && isSpiralMissileSpawnZone) {
+                this.transform.Translate(Vector3.right * Mathf.Sin((Time.time) * speed + phase) * 1f * circleSize * Time.deltaTime);
+                this.transform.Translate(Vector3.down * Mathf.Cos((Time.time) * speed + phase) * 1f * circleSize * Time.deltaTime);
+                circleSize += 0.05f * circleGrowSpeed;
+            } else {
+                Destroy(this.gameObject);
+            }
+
+
+            if (transform.position.y < -5.5f || transform.position.x < -2.2f || transform.position.x > 2.2f) {
                 Destroy(this.gameObject);
             }
         }
